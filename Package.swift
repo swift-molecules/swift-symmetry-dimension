@@ -19,7 +19,7 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-molecules/swift-symmetry.git",
+            url: "https://github.com/swift-atoms/swift-symmetry.git",
             branch: "main"
         ),
         .package(
@@ -34,6 +34,10 @@ let package = Package(
             url: "https://github.com/swift-atoms/swift-numeric.git",
             branch: "main"
         ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-tagged.git",
+            branch: "main"
+        ),
     ],
     targets: [
         .target(
@@ -42,7 +46,8 @@ let package = Package(
                 .product(name: "Symmetry", package: "swift-symmetry"),
                 .product(name: "Symmetry Algebra", package: "swift-symmetry-algebra"),
                 .product(name: "Dimension", package: "swift-dimension"),
-                .product(name: "Real", package: "swift-numeric"),
+                .product(name: "Numeric", package: "swift-numeric"),
+                .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
         .testTarget(
@@ -52,7 +57,12 @@ let package = Package(
                 .product(name: "Symmetry", package: "swift-symmetry"),
                 .product(name: "Symmetry Algebra", package: "swift-symmetry-algebra"),
                 .product(name: "Dimension", package: "swift-dimension"),
-                .product(name: "Real", package: "swift-numeric"),
+                .product(name: "Numeric", package: "swift-numeric"),
+                .product(
+                    name: "Numeric Standard Library Integration",
+                    package: "swift-numeric"
+                ),
+                .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
     ],

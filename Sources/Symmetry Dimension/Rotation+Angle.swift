@@ -1,7 +1,8 @@
 public import Dimension
+public import Numeric
 public import Symmetry
 public import Symmetry_Algebra
-internal import Real
+public import Tagged
 
 extension Rotation where N == 2, Scalar: BinaryFloatingPoint & Numeric.Transcendental & Sendable {
 

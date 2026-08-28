@@ -1,11 +1,11 @@
 import Dimension
-import Real
-import Testing
-
+import Numeric
+import Numeric_Standard_Library_Integration
 import Symmetry
 import Symmetry_Algebra
-
-@testable import Symmetry_Dimension
+import Symmetry_Dimension
+import Tagged
+import Testing
 
 @Suite
 struct `Rotation Tests` {
@@ -25,7 +25,7 @@ struct `Rotation Tests` {
     @Test
     func `Initialize from angle`() {
         let rotation = Rotation<2, Double>(angle: .pi / 4)
-        let angle = .pi / 4.0
+        let angle = Double.pi / 4.0
 
         #expect(abs(rotation.matrix[0][0] - Double.math.cos(angle)) < 1e-10)
         #expect(abs(rotation.matrix[1][1] - Double.math.cos(angle)) < 1e-10)
@@ -55,7 +55,7 @@ struct `Rotation Tests` {
     @Test
     func `Angle property returns correct value`() {
         let rotation = Rotation<2, Double>(angle: .pi / 3)
-        let bool = abs(rotation.angle - .pi / 3) < 1e-10
+        let bool = abs(rotation.angle.underlying - Double.pi / 3) < 1e-10
         #expect(bool == true)
     }
 
@@ -63,7 +63,7 @@ struct `Rotation Tests` {
     func `Angle property can be set`() {
         var rotation = Rotation<2, Double>(angle: .pi / 4)
         rotation.angle = .pi / 2
-        let bool = abs(rotation.angle - .pi / 2) < 1e-10
+        let bool = abs(rotation.angle.underlying - Double.pi / 2) < 1e-10
         #expect(bool == true)
     }
 
@@ -73,7 +73,7 @@ struct `Rotation Tests` {
         let rotation2 = Rotation<2, Double>(angle: .pi / 4)
         let result = rotation1.concatenating(rotation2)
 
-        let bool = abs(result.angle - .pi / 2) < 1e-10
+        let bool = abs(result.angle.underlying - Double.pi / 2) < 1e-10
         #expect(bool == true)
     }
 
@@ -83,7 +83,7 @@ struct `Rotation Tests` {
         let identity = Rotation<2, Double>.identity
         let result = rotation.concatenating(identity)
 
-        #expect(abs(result.angle - rotation.angle) < 1e-10)
+        #expect(abs(result.angle.underlying - rotation.angle.underlying) < 1e-10)
     }
 
     @Test
@@ -92,7 +92,7 @@ struct `Rotation Tests` {
         let rotation2 = Rotation<2, Double>(angle: .pi / 3)
         let result = rotation1.concatenating(rotation2)
 
-        let bool = abs(result.angle - .pi / 2) < 1e-10
+        let bool = abs(result.angle.underlying - Double.pi / 2) < 1e-10
         #expect(bool == true)
     }
 
@@ -101,7 +101,7 @@ struct `Rotation Tests` {
         let rotation = Rotation<2, Double>(angle: .pi / 4)
         let inverted = rotation.inverted
 
-        #expect(abs(inverted.angle + rotation.angle) < 1e-10)
+        #expect(abs(inverted.angle.underlying + rotation.angle.underlying) < 1e-10)
     }
 
     @Test
@@ -120,7 +120,7 @@ struct `Rotation Tests` {
         let rotation = Rotation<2, Double>(angle: .pi / 3)
         let inverted = rotation.inverted
 
-        #expect(abs(inverted.angle + rotation.angle) < 1e-10)
+        #expect(abs(inverted.angle.underlying + rotation.angle.underlying) < 1e-10)
     }
 
     @Test
@@ -138,20 +138,20 @@ struct `Rotation Tests` {
     @Test
     func `Quarter turn is 90 degrees`() {
         let quarterTurn = Rotation<2, Double>.quarterTurn
-        let bool = abs(quarterTurn.angle - .pi / 2) < 1e-10
+        let bool = abs(quarterTurn.angle.underlying - Double.pi / 2) < 1e-10
         #expect(bool == true)
     }
 
     @Test
     func `Half turn is 180 degrees`() {
         let halfTurn = Rotation<2, Double>.halfTurn
-        #expect(abs(abs(halfTurn.angle) - .pi) < 1e-10)
+        #expect(abs(abs(halfTurn.angle.underlying) - Double.pi) < 1e-10)
     }
 
     @Test
     func `Quarter turn clockwise is -90 degrees`() {
         let quarterTurnCW = Rotation<2, Double>.quarterTurnClockwise
-        let bool = abs(quarterTurnCW.angle + .pi / 2) < 1e-10
+        let bool = abs(quarterTurnCW.angle.underlying + Double.pi / 2) < 1e-10
         #expect(bool == true)
     }
 
@@ -160,7 +160,7 @@ struct `Rotation Tests` {
         let rotation = Rotation<2, Double>(angle: Radian<Double>.pi / 6)
         let rotated = rotation.rotated(by: Radian<Double>.pi / 3)
 
-        let bool = abs(rotated.angle - .pi / 2) < 1e-10
+        let bool = abs(rotated.angle.underlying - Double.pi / 2) < 1e-10
         #expect(bool == true)
     }
 
@@ -169,7 +169,7 @@ struct `Rotation Tests` {
         let rotation = Rotation<2, Double>(angle: .pi / 4)
         let rotated = rotation.rotated(by: Degree(45))
 
-        let bool = abs(rotated.angle - .pi / 2) < 1e-10
+        let bool = abs(rotated.angle.underlying - Double.pi / 2) < 1e-10
         #expect(bool == true)
     }
 
