@@ -1,4 +1,4 @@
-public import Dimension
+public import Scale
 public import Symmetry
 
 extension Shear where N == 2 {

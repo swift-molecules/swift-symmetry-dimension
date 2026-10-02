@@ -1,6 +1,5 @@
-import Dimension
+import Angle
 import Numeric
-import Numeric_Standard_Library_Integration
 import Symmetry
 import Symmetry_Algebra
 import Symmetry_Dimension
@@ -24,7 +23,7 @@ struct `Rotation Tests` {
 
     @Test
     func `Initialize from angle`() {
-        let rotation = Rotation<2, Double>(angle: .pi / 4)
+        let rotation = Rotation<2, Double>(angle: .pi.quarter)
         let angle = Double.pi / 4.0
 
         #expect(abs(rotation.matrix[0][0] - Double.math.cos(angle)) < 1e-10)
@@ -54,23 +53,23 @@ struct `Rotation Tests` {
 
     @Test
     func `Angle property returns correct value`() {
-        let rotation = Rotation<2, Double>(angle: .pi / 3)
+        let rotation = Rotation<2, Double>(angle: .pi.third)
         let bool = abs(rotation.angle.underlying - Double.pi / 3) < 1e-10
         #expect(bool == true)
     }
 
     @Test
     func `Angle property can be set`() {
-        var rotation = Rotation<2, Double>(angle: .pi / 4)
-        rotation.angle = .pi / 2
+        var rotation = Rotation<2, Double>(angle: .pi.quarter)
+        rotation.angle = .pi.half
         let bool = abs(rotation.angle.underlying - Double.pi / 2) < 1e-10
         #expect(bool == true)
     }
 
     @Test
     func `Static concatenate composes rotations`() {
-        let rotation1 = Rotation<2, Double>(angle: .pi / 4)
-        let rotation2 = Rotation<2, Double>(angle: .pi / 4)
+        let rotation1 = Rotation<2, Double>(angle: .pi.quarter)
+        let rotation2 = Rotation<2, Double>(angle: .pi.quarter)
         let result = rotation1.concatenating(rotation2)
 
         let bool = abs(result.angle.underlying - Double.pi / 2) < 1e-10
@@ -79,7 +78,7 @@ struct `Rotation Tests` {
 
     @Test
     func `Static concatenate with identity returns original`() {
-        let rotation = Rotation<2, Double>(angle: .pi / 3)
+        let rotation = Rotation<2, Double>(angle: .pi.third)
         let identity = Rotation<2, Double>.identity
         let result = rotation.concatenating(identity)
 
@@ -88,8 +87,8 @@ struct `Rotation Tests` {
 
     @Test
     func `Concatenating instance method works`() {
-        let rotation1 = Rotation<2, Double>(angle: .pi / 6)
-        let rotation2 = Rotation<2, Double>(angle: .pi / 3)
+        let rotation1 = Rotation<2, Double>(angle: .pi.sixth)
+        let rotation2 = Rotation<2, Double>(angle: .pi.third)
         let result = rotation1.concatenating(rotation2)
 
         let bool = abs(result.angle.underlying - Double.pi / 2) < 1e-10
@@ -98,7 +97,7 @@ struct `Rotation Tests` {
 
     @Test
     func `Static inverted returns inverse rotation`() {
-        let rotation = Rotation<2, Double>(angle: .pi / 4)
+        let rotation = Rotation<2, Double>(angle: .pi.quarter)
         let inverted = rotation.inverted
 
         #expect(abs(inverted.angle.underlying + rotation.angle.underlying) < 1e-10)
@@ -117,7 +116,7 @@ struct `Rotation Tests` {
 
     @Test
     func `Inverted instance property works`() {
-        let rotation = Rotation<2, Double>(angle: .pi / 3)
+        let rotation = Rotation<2, Double>(angle: .pi.third)
         let inverted = rotation.inverted
 
         #expect(abs(inverted.angle.underlying + rotation.angle.underlying) < 1e-10)
@@ -125,7 +124,7 @@ struct `Rotation Tests` {
 
     @Test
     func `Composition with inverse yields identity`() {
-        let rotation = Rotation<2, Double>(angle: .pi / 5)
+        let rotation = Rotation<2, Double>(angle: Radian(_unchecked: Double.pi / 5))
         let inverted = rotation.inverted
         let result = rotation.concatenating(inverted)
 
@@ -157,8 +156,8 @@ struct `Rotation Tests` {
 
     @Test
     func `Rotated by angle works`() {
-        let rotation = Rotation<2, Double>(angle: Radian<Double>.pi / 6)
-        let rotated = rotation.rotated(by: Radian<Double>.pi / 3)
+        let rotation = Rotation<2, Double>(angle: Radian<Double>.pi.sixth)
+        let rotated = rotation.rotated(by: Radian<Double>.pi.third)
 
         let bool = abs(rotated.angle.underlying - Double.pi / 2) < 1e-10
         #expect(bool == true)
@@ -166,7 +165,7 @@ struct `Rotation Tests` {
 
     @Test
     func `Rotated by degrees works`() {
-        let rotation = Rotation<2, Double>(angle: .pi / 4)
+        let rotation = Rotation<2, Double>(angle: .pi.quarter)
         let rotated = rotation.rotated(by: Degree(45))
 
         let bool = abs(rotated.angle.underlying - Double.pi / 2) < 1e-10
@@ -175,16 +174,16 @@ struct `Rotation Tests` {
 
     @Test
     func `Equal rotations are equal`() {
-        let rotation1 = Rotation<2, Double>(angle: .pi / 4)
-        let rotation2 = Rotation<2, Double>(angle: .pi / 4)
+        let rotation1 = Rotation<2, Double>(angle: .pi.quarter)
+        let rotation2 = Rotation<2, Double>(angle: .pi.quarter)
 
         #expect(rotation1 == rotation2)
     }
 
     @Test
     func `Different rotations are not equal`() {
-        let rotation1 = Rotation<2, Double>(angle: .pi / 4)
-        let rotation2 = Rotation<2, Double>(angle: .pi / 3)
+        let rotation1 = Rotation<2, Double>(angle: .pi.quarter)
+        let rotation2 = Rotation<2, Double>(angle: .pi.third)
 
         #expect(rotation1 != rotation2)
     }

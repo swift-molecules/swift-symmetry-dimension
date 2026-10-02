@@ -1,4 +1,4 @@
-public import Dimension
+public import Angle
 public import Numeric
 public import Symmetry
 public import Symmetry_Algebra

@@ -1,4 +1,4 @@
-import Dimension
+import Scale
 import Symmetry
 import Symmetry_Dimension
 import Testing
